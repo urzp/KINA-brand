@@ -1,0 +1,125 @@
+<!-- стили для блоков каталог товаров-->
+<style>
+    .t-store__card__imgwrapper > div{
+        transition: 2s;
+        animation-timing-function: linear;
+    }
+    .t1002__addBtn{
+        display: none; 
+    }
+
+
+    @media (min-width:960px) and (max-width: 1199.98px){
+        .js-store-prod-name{
+            font-size: 14px!important;
+        }
+        .t-store__card__price, .js-store-prod-price-old-val, .t-store__card__price-currency{
+            font-size: 14px!important;
+        }
+        .js-product{
+            margin-bottom: 30px!important;
+        }
+    }
+    @media (max-width: 629.98px){
+        .js-store-prod-name{
+            font-size: 14px!important;
+        }
+        .t-store__card__price, .js-store-prod-price-old-val, .t-store__card__price-currency{
+            font-size: 14px!important;
+        }
+        .js-product{
+            margin-bottom: 30px!important;
+        }
+    }
+    @media (max-width: 479.98px){
+        .t-store__card__textwrapper{
+            padding-top: 10px!important;
+        }
+        .js-store-prod-name{
+            font-size: 12px!important;
+        }
+        .t-store__card__price, .js-store-prod-price-old-val, .t-store__card__price-currency{
+            font-size: 12px!important;
+        }
+        .js-store-price-wrapper{
+            margin-top: 0px!important;
+        }
+        .js-product{
+            margin-bottom: 20px!important;
+        }
+    }
+    @media (max-width: 419.98px){
+        .js-store-prod-name{
+            font-size: 10px!important;
+        }
+        .t-store__card__price, .js-store-prod-price-old-val, .t-store__card__price-currency{
+            font-size: 10px!important;
+        }
+        .js-store-price-wrapper{
+            margin-top: 0px!important;
+        }
+        .js-product{
+            margin-bottom: 20px!important;
+        }
+    }
+</style>
+
+<script>
+    $(document).ready(()=>{
+        let caut_cards = $('.js-store-prod-name').length
+        let width_wind = window.screen.width
+        setInterval(()=>{
+            if(caut_cards != $('.js-store-prod-name').length || width_wind != window.screen.width){
+                transform_all()
+                caut_cards = $('.js-store-prod-name').length
+                width_wind = window.screen.width
+            }
+        },500)
+    })
+
+    function transform_all(){
+        //console.log('transform')
+        let length_row = 4
+        if(window.screen.width <= 960) length_row = 2
+        transfer_title()
+        transfer_height_all_stories(length_row)
+    }
+
+    function transfer_title(){
+        $('.js-store-prod-name').each((i,element)=>{
+            let text = $(element).html() 
+            if(window.screen.width <= 1400){
+                $(element).html( text.replace('#br#', '') + "<br>" );
+            }else{
+                $(element).html( text.replace('#br#', '<br>') + "<br>" );
+            }
+            
+        });
+    }
+
+    function transfer_height_all_stories(length_row){
+        $('.js-store-grid-cont').each((i,element)=>{
+            transfer_height_store( element ,length_row)
+        }) 
+    }
+
+    function transfer_height_store(store, length_row){
+        let cards = $(store).find('.js-store-prod-name')
+        for(i=0;i<$(cards).length;i=i+length_row){
+            transfer_height_cards(cards.slice(i,i+length_row))
+        }
+    }
+
+    function transfer_height_cards(catds){
+        let max_height = 0
+        $(catds).each((i,element)=>{
+            //$(element).height('auto')
+            if($(element).height()>max_height) max_height = $(element).height()
+        });
+
+        $(catds).each((i,element)=>{
+            $(element).height(max_height)
+        });    
+    }
+
+</script>

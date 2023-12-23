@@ -1,0 +1,12 @@
+<script>
+   	$( document ).ready(()=>{
+        let top_default = $('.t706__carticon.t706__carticon_showed').css('top')
+		setInterval(()=>{
+          if(window.pageYOffset>75){
+            $('.t706__carticon.t706__carticon_showed').css({'top':'10px'})
+          } else{
+            $('.t706__carticon.t706__carticon_showed').css({'top':top_default})
+          }
+        },300)
+	})
+</script>

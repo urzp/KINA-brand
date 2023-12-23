@@ -1,0 +1,87 @@
+<style>
+	.uc-elements{
+		display: none; 
+	}
+</style>
+
+<script>
+	const buttons = [ '.btn_pre_order' ] //имена классов элементов для кнопок перечисленные через запятую в кавычках. Точка в переди обязатено нужна 
+	
+	const zeroBlock = '.uc-elements' // имя класса для зеро блока
+	
+	const buttonsTarget = '.t762__btn-wrapper.t1002__btns-wrapper'  // имя класса для блока куда вставляются кнопки
+
+	const buttonStyles = { // стили для кнопок 
+		position:'inherit',
+		'margin-left': '20px'
+	}
+
+	const buttonsTargetStyles = { // стили для блока куда вставляются кнопки
+		'display': 'flex'
+	}
+
+	const wrapCss = [
+		'width',
+		'height'
+	]
+	const tn_atomCss = [
+		'color',
+		'font-size',
+		'font-family',
+		'font-weight',
+		'line-height',
+		'border-style',
+		'border-color',
+		'border-width',
+		'border-radius',
+		'background-color',
+		'background-position',
+		'transition',
+		'text-decoration',
+		'display',
+		'vertical-align',
+		'text-align',
+	]
+
+	$( document ).ready(()=>{
+		cloneButtons()
+	})
+
+	function afterLoadElement(cssSelector, callBack){
+		let id_int = setInterval(()=>{
+			if(!$(cssSelector)) return false
+			callBack()
+			clearInterval(id_int)	
+		}, 1000)
+	}
+
+	function cloneButtons(){
+		buttons.forEach(item =>{
+			cloneElemrntTo(`${zeroBlock} ${item}`, buttonsTarget)
+			$(item).css(buttonStyles)	
+		})
+		$(buttonsTarget).css(buttonsTargetStyles)
+	}
+
+
+	function cloneElemrntTo(element_cssSelect, target_cssSelect){
+		cloneCss( element_cssSelect + ' .tn-atom' )
+		$( element_cssSelect ).clone().appendTo( target_cssSelect ).addClass('clone')
+	}
+
+	function cloneCss(cssSelect){
+		let css_list = getCss(cssSelect, tn_atomCss ,wrapCss)
+		$(cssSelect).css(css_list)
+	}
+
+	function getCss(cssSelect, cssProperties, cssParent){
+		let result = {}
+		cssParent.forEach( item => {
+			result[item] = $(cssSelect).parent().css(item)
+		} )
+		cssProperties.forEach( item => {
+			result[item] = $(cssSelect).css(item)
+		} )
+		return result
+	}
+</script>

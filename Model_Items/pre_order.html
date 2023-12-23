@@ -1,0 +1,97 @@
+<!-- Скрипт для предзаказа моделий-->
+
+<style>
+    .t762__btn.t-btn.t-btn_sm {
+        opacity: 0.2;
+        cursor: default;
+    }
+
+    .js-successbox{
+        border-radius: 30px;
+        padding: 10px;
+        cursor: pointer;
+    }
+    .t706__product-title__option :nth-child(3){
+        font-weight: 800;
+    }
+    
+</style>
+    
+<script>
+    let scrolled = false
+    
+    $(document).ready(()=>{
+        disabelButtonBuy()
+        next_order()
+        cloneImgPupap()
+        waitload('.btn_pre_order',()=>{
+            $('.btn_pre_order').click(()=>{
+                setTimeout( scrollPupap, 1000);
+                fill_form();
+            })
+        })
+    })
+    function disabelButtonBuy(){
+        $('.t762__btn.t-btn.t-btn_sm').attr({'onclick':'event.stopPropagation()'})
+    }
+    function purchase(){
+        $('.t762__btn.t-btn.t-btn_sm').attr({'onclick':''})
+        $('.t762__btn.t-btn.t-btn_sm').click()
+        $('.t762__btn.t-btn.t-btn_sm').attr({'onclick':'event.stopPropagation()'})
+    }
+    function cloneImgPupap(){
+        let element_cssSelect = '.t-popup__container .t702__img'
+        $( element_cssSelect ).after("<img class='t702__img t-img model' src='' >")
+        let link_img = $($('.t-slds__bgimg.t-bgimg.js-product-img')[0]).attr('data-original')
+        $('.t702__img.t-img.model').attr({'src':link_img})
+    }
+    
+    function scrollPupap(){
+        if(scrolled) return false
+        $('.t-popup').animate({
+            scrollTop: $(".t702__text-wrapper").offset().top
+        }, 1500);
+        scrolled = true
+    }
+    
+    function waitload(cssSelector,callBack){
+        id_interval = setInterval(() => {
+            if($(cssSelector).length>0){
+                callBack()
+                clearInterval(id_interval) 
+            }
+        },300)
+    }
+    
+    function fill_form(){
+        let product_item = {
+            title: $('.t762__title.t-name.t-name_xl.js-product-name').text(),
+            sku: $('.js-product-sku.notranslate').text(),
+            price: $('.t762__price-value.js-product-price.notranslate').text() + ' p.',
+            color: $('.t-product__option-select.t-descr.t-descr_xxs.js-product-option-variants').val(),
+            size: $($('.t-product__option-select.t-descr.t-descr_xxs.js-product-option-variants')[1]).val(),
+            link: window.location.href
+        }
+        
+        $('.t-form__inputsbox [name=model_name]').val(product_item.title)
+        $('.t-form__inputsbox [name=model_sku]').val(product_item.sku)
+        $('.t-form__inputsbox [name=model_price]').val(product_item.price)
+        $('.t-form__inputsbox [name=model_color]').val(product_item.color)
+        $('.t-form__inputsbox [name=model_size]').val(product_item.size)
+        $('.t-form__inputsbox [name=model_link]').val(product_item.link)
+    
+    }
+
+    function next_order(){
+        $('.t-popup .t-submit').click(()=>{
+            if($('.t-popup [name=agreement]').is(":checked")){
+                purchase()
+            }
+        })
+        $('.js-successbox').click(()=>{
+            $('.t706__carticon').click()
+            $('.t-popup .t-popup__close-wrapper').click()
+        })
+    }
+    
+</script>

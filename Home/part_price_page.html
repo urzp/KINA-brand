@@ -1,0 +1,60 @@
+<!--Расчет долями для стриницы товара-->
+
+<style>
+    .t762 .part_price{
+          font-family: 'Montserrat',Arial,sans-serif;
+          font-size: 14px;
+          font-weight: 600;
+          color: #000000;
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+      }  
+      .part_price_title{
+          margin-right: 10px;
+          display: flex;
+          align-items: center;
+          background-color: #000;
+          color: #fff;
+          padding: 2px 5px;
+          padding-right: 10px;      
+      }
+      .part_price_title img{
+          position: relative;
+          top: 2px;
+          left: -3px;
+      }
+  </style>
+  
+  <script>
+      $(document).ready(()=>{
+          
+          addPartPrice()
+  
+      
+  
+  
+      function addPartPrice(){
+          id_int = setInterval(()=>{
+              if( !$('.t762__price-value').attr('data-product-price-def')) return false
+              price = $('.t762__price-value').attr('data-product-price-def')
+              console.log(price)
+              price = countPartPrice(price)
+              price = numberWithSpaces(price)
+              icon = '<div><img src="https://static.tildacdn.com/tild6230-6137-4461-b362-333639396633/Group_2_2.svg" alt=""></div>'
+              new_html = `<div class="part_price"><div class="part_price_title">${icon}Долями</div>4 платежа по ${price} р.</div>`
+              $('.t762__price-wrapper').after(new_html)
+              clearInterval(id_int)
+          }, 300)
+  
+      }
+  
+      function countPartPrice(price){
+          price = Math.round( price / 4)
+          return price
+      }
+      function numberWithSpaces(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        }
+    })
+  </script>
